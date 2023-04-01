@@ -41,10 +41,11 @@ public class Partner extends User{
     private String profileImgName;
 
     @OneToMany (mappedBy = "partner", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JsonManagedReference
+    @JsonManagedReference (value = "partner-jobs")
     private List<Job> jobs;
 
-    @OneToMany(mappedBy = "partner")
+    @OneToMany(mappedBy = "partner", fetch = FetchType.LAZY)
+    @JsonManagedReference (value = "partner-rate")
     private List<PartnerRating> ratings;
 
     @ManyToMany (mappedBy = "favorites")

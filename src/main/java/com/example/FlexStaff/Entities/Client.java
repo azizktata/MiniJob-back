@@ -1,5 +1,7 @@
 package com.example.FlexStaff.Entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -34,10 +36,13 @@ public class Client extends User{
     @Column(name = "profileImgName")
     private String profileImgName;
 
-    @OneToMany(mappedBy = "client")
+    @OneToMany(mappedBy = "client", fetch=FetchType.EAGER)
+    @JsonManagedReference (value = "client-apply")
     private List<Candidat> appliedJobs;
 
-    @OneToMany(mappedBy = "client")
+    @OneToMany(mappedBy = "client", fetch=FetchType.EAGER)
+    @JsonManagedReference (value = "client-rate")
+    @JsonIgnore
     private List<PartnerRating> ratings;
 
     @ManyToMany (fetch = FetchType.EAGER)
