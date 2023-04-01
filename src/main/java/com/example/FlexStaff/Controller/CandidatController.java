@@ -24,6 +24,18 @@ public class CandidatController {
         return candidatRepo.findAll();
     }
 
+    @GetMapping(value = "/candidats/job/{jobId}")
+    public List<Client> getCandidatsPerJob(@PathVariable int jobId){
+
+        return candidatRepo.findByJobId(jobId);
+    }
+
+    @GetMapping(value = "/candidats/client/{clientId}")
+    public List<Job> getJobsPerClient(@PathVariable int clientId){
+
+        return candidatRepo.findByClientId(clientId);
+    }
+
     @PostMapping(value = "/candidats/client/{clientId}/job/{jobId}")
     public Candidat postCandidat(
             @RequestBody Candidat CA,

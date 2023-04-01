@@ -29,6 +29,11 @@ public class PartnerController {
         return partnerRepo.save(p);
     }
 
+    @DeleteMapping(value = "/partners/{partnerId}")
+    public String deletePartner(@PathVariable int partnerId){
+        partnerRepo.delete(partnerRepo.findById(partnerId).get());
+        return "Account deleted";
+    }
    /* @PutMapping(value = "/partners/{partnerId}/jobs/{jobId}")
     Partner addJob(@PathVariable int partnerId, @PathVariable int jobId){
         Partner p = partnerRepo.findById(partnerId).get();
