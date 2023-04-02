@@ -1,68 +1,53 @@
 package com.example.FlexStaff.Controller;
 
-import com.example.FlexStaff.DAO.*;
 import com.example.FlexStaff.Entities.*;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.example.FlexStaff.Service.CandidatService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
+@RequestMapping(value = "api/v1/candidats")
 public class CandidatController {
 
-    @Autowired
-    private ClientRepo clientRepo;
+    private final CandidatService candidatService;
 
-    @Autowired
-    private JobRepo jobRepo;
-
-    @Autowired
-    private CandidatRepo candidatRepo;
-
-    @GetMapping(value = "/candidats")
-    public List<Candidat> getCandidats(){
-        return candidatRepo.findAll();
+    public CandidatController(CandidatService candidatService) {
+        this.candidatService = candidatService;
     }
 
-    @GetMapping(value = "/candidats/job/{jobId}")
+    @GetMapping()
+    public List<Candidat> getCandidats(){
+        return candidatService.getAllCandidats();
+    }
+
+    @GetMapping(value = "/job/{jobId}")
     public List<Client> getCandidatsPerJob(@PathVariable int jobId){
 
-        return candidatRepo.findByJobId(jobId);
+        return candidatService.getCandidatsPerJob(jobId);
     }
 
-    @GetMapping(value = "/candidats/client/{clientId}")
+    @GetMapping(value = "/client/{clientId}")
     public List<Job> getJobsPerClient(@PathVariable int clientId){
 
-        return candidatRepo.findByClientId(clientId);
+        return candidatService.getJobsPerClient(clientId);
     }
 
-    @PostMapping(value = "/candidats/client/{clientId}/job/{jobId}")
-    public Candidat postCandidat(
-            @RequestBody Candidat CA,
+    @PostMapping(value = "/client/{clientId}/job/{jobId}")
+    public CandidatKey postCandidat(
             @PathVariable int clientId,
-            @PathVariable int jobId){
-        Job j = jobRepo.findById(jobId).get();
-        Client c = clientRepo.findById(clientId).get();
-        CandidatKey key = new CandidatKey(clientId, jobId);
-        CA.addCandidat(c,j);
-
-        CA.setId(key);
-        return candidatRepo.save(CA);
-
-
+            @PathVariable int jobId)
+    {
+        return candidatService.applyCandidat(clientId, jobId);
     }
-    @DeleteMapping(value = "/candidats/client/{clientId}/job/{jobId}")
+    @DeleteMapping(value = "/client/{clientId}/job/{jobId}")
     public String deleteCandidat(
             @PathVariable int clientId,
-            @PathVariable int jobId){
-        Job j = jobRepo.findById(jobId).get();
-        Client c = clientRepo.findById(clientId).get();
-        CandidatKey key = new CandidatKey(clientId, jobId);
-
-       candidatRepo.delete(candidatRepo.findByKey(clientId, jobId));
-        return "candidat deleted";
-
+            @PathVariable int jobId)
+    {
+        return candidatService.removeCandidat(clientId, jobId);
     }
+
 
    /* @PutMapping(value = "/partners/{partnerId}/jobs/{jobId}")
     Partner addJob(@PathVariable int partnerId, @PathVariable int jobId){

@@ -1,55 +1,38 @@
 package com.example.FlexStaff.Controller;
 
-import com.example.FlexStaff.DAO.ClientRepo;
-import com.example.FlexStaff.DAO.JobRepo;
-import com.example.FlexStaff.DAO.PartnerRatingRepo;
-import com.example.FlexStaff.DAO.PartnerRepo;
+import com.example.FlexStaff.DTO.RateDto;
 import com.example.FlexStaff.Entities.Client;
 import com.example.FlexStaff.Entities.Partner;
 import com.example.FlexStaff.Entities.PartnerRating;
 import com.example.FlexStaff.Entities.PartnerRatingKey;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.example.FlexStaff.Service.RatingService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
+@RequestMapping(value = "api/v1/ratings")
 public class RatingController {
-    @Autowired
-    private PartnerRatingRepo ratingRepo;
 
-    @Autowired
-    private ClientRepo clientRepo;
+    private final RatingService ratingService;
 
-    @Autowired
-    private PartnerRepo partnerRepo;
+    public RatingController(RatingService ratingService) {
+        this.ratingService = ratingService;
+    }
 
-    @GetMapping(value = "/ratings")
+    @GetMapping()
     public List<PartnerRating> getRating(){
-        return ratingRepo.findAll();
+        return ratingService.getAllRatings();
     }
 
-    @PostMapping(value = "/ratings/client/{clientId}/partner/{partnerId}")
-    public PartnerRating postRating(
-            @RequestBody PartnerRating PR,
+    @PostMapping(value = "/client/{clientId}/partner/{partnerId}")
+    public PartnerRatingKey postRating(
+            @RequestBody RateDto stars,
             @PathVariable int clientId,
-            @PathVariable int partnerId){
-        Partner p = partnerRepo.findById(partnerId).get();
-        Client c = clientRepo.findById(clientId).get();
-        PR.addRate(c,p);
-        PartnerRatingKey key = new PartnerRatingKey(clientId, partnerId);
-        PR.setId(key);
-        return ratingRepo.save(PR);
-
-
+            @PathVariable int partnerId)
+    {
+        return ratingService.ratePartner(clientId, partnerId, stars);
     }
 
-   /* @PutMapping(value = "/partners/{partnerId}/jobs/{jobId}")
-    Partner addJob(@PathVariable int partnerId, @PathVariable int jobId){
-        Partner p = partnerRepo.findById(partnerId).get();
-        Job j = jobRepo.findById(jobId).get();
-        p.addJob(j);
-        return partnerRepo.save(p);
 
-    }*/
 }

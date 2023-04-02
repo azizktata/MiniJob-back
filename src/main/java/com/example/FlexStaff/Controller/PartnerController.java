@@ -2,9 +2,10 @@ package com.example.FlexStaff.Controller;
 
 import com.example.FlexStaff.DAO.JobRepo;
 import com.example.FlexStaff.DAO.PartnerRepo;
-import com.example.FlexStaff.Entities.Client;
-import com.example.FlexStaff.Entities.Job;
-import com.example.FlexStaff.Entities.Partner;
+import com.example.FlexStaff.DTO.CandidatDto;
+import com.example.FlexStaff.Entities.*;
+import com.example.FlexStaff.Entities.Enum.Status;
+import com.example.FlexStaff.Service.PartnerService;
 import jakarta.servlet.http.Part;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -12,29 +13,40 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@RequestMapping(value = "api/v1/partners")
 public class PartnerController {
-    @Autowired
-    private PartnerRepo partnerRepo;
 
-    @Autowired
-    private JobRepo jobRepo;
+    private final PartnerService partnerService;
 
-    @GetMapping(value = "/partners")
+    public PartnerController(PartnerService partnerService) {
+        this.partnerService = partnerService;
+    }
+
+    @GetMapping()
     public List<Partner> getPartnerss(){
-        return partnerRepo.findAll();
+        return partnerService.getAllPartners();
     }
 
-    @PostMapping(value = "/partners")
-    public Partner postPartner(@RequestBody Partner p){
-        return partnerRepo.save(p);
+    @PostMapping()
+    public int addPartner(@RequestBody Partner p){
+        return partnerService.savePartner(p);
     }
 
-    @DeleteMapping(value = "/partners/{partnerId}")
+    @DeleteMapping(value = "/{partnerId}")
     public String deletePartner(@PathVariable int partnerId){
-        partnerRepo.delete(partnerRepo.findById(partnerId).get());
-        return "Account deleted";
+        return partnerService.removePartner(partnerId);
     }
-   /* @PutMapping(value = "/partners/{partnerId}/jobs/{jobId}")
+
+    @PutMapping(value = "/candidats/client/{clientId}/job/{jobId}/{code}")
+    Candidat manageCandidat(
+            @PathVariable int clientId,
+            @PathVariable int jobId,
+            @PathVariable String code
+            )
+    {
+       return partnerService.manageCandidat(clientId, jobId, code);
+    }
+    /* @PutMapping(value = "/partners/{partnerId}/jobs/{jobId}")
     Partner addJob(@PathVariable int partnerId, @PathVariable int jobId){
         Partner p = partnerRepo.findById(partnerId).get();
         Job j = jobRepo.findById(jobId).get();

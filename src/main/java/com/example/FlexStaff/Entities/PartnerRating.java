@@ -32,6 +32,9 @@ public class PartnerRating {
         this.partner = partner;
         this.stars = stars;
     }
+    public PartnerRating(int stars) {
+        this.stars = stars;
+    }
 
     public void addRate(Client c, Partner p) {
         this.client = c;

@@ -2,6 +2,8 @@ package com.example.FlexStaff.Controller;
 
 import com.example.FlexStaff.DAO.ClientRepo;
 import com.example.FlexStaff.DAO.PartnerRepo;
+import com.example.FlexStaff.DTO.ClientDto;
+import com.example.FlexStaff.DTO.JobDto;
 import com.example.FlexStaff.Entities.Client;
 import com.example.FlexStaff.Entities.Partner;
 import com.example.FlexStaff.Service.ClientService;
@@ -16,64 +18,56 @@ import java.io.IOException;
 import java.util.List;
 
 @RestController
+@RequestMapping(value = "api/v1/clients")
 public class ClientController {
     @Autowired
-    private ClientService clientService;
-
-    @Autowired
-    private ClientRepo clientRepo;
-
-    @Autowired
-    private PartnerRepo partnerRepo;
+    private final ClientService clientService;
 
 
-    @GetMapping(value = "/clients")
+    public ClientController(ClientService clientService) {
+        this.clientService = clientService;
+    }
+
+    @GetMapping()
     public List<Client> getClients(){
-        return clientRepo.findAll();
+        return clientService.getAllClients();
     }
 
-    @PostMapping(value = "/clients")
-    public void saveClient(@RequestBody Client C){
-        clientRepo.save(C);
+    @PostMapping()
+    public int addClient(@RequestBody Client C){
+        return clientService.saveClient(C);
     }
 
-    @PutMapping(value = "/clients/img/{id}")
-    public void updateImg(@RequestParam("profileImage") MultipartFile file, @PathVariable int id) throws IOException {
-        Client updatedC = clientRepo.findById(id).get();
-        clientService.uploadImage(file,updatedC);
+    @PutMapping(value = "/upload/{clientId}")
+    public void updateImg(@RequestParam("profileImage") MultipartFile file, @PathVariable int clientId) throws IOException {
+
+        clientService.uploadImage(file,clientId);
     }
-    @GetMapping("/download/{id}")
-    public ResponseEntity<byte[]> downloadImage(@PathVariable int id) {
-        Client C = clientRepo.findById(id).get();
-        byte[] image = clientService.downloadImage(C);
+    @GetMapping("/download/{clientId}")
+    public ResponseEntity<byte[]> downloadImage(@PathVariable int clientId) {
+
+        byte[] image = clientService.downloadImage(clientId);
         return ResponseEntity.status(HttpStatus.OK).contentType(MediaType.valueOf("image/png")).body(image);
     }
 
-    @PutMapping(value = "/clients/{clientId}/partner/{partnerId}")
+    @PutMapping(value = "/{clientId}/partner/{partnerId}")
     public Client favoritePartner(
             @PathVariable int clientId,
             @PathVariable int partnerId
-
     ){
-        Client c = clientRepo.findById(clientId).get();
-        Partner p = partnerRepo.findById(partnerId).get();
-
-        c.favorPartner(p);
-        clientRepo.save(c);
-        return c;
+        return clientService.addFavoris(clientId, partnerId);
     }
-    @DeleteMapping(value = "/clients/{clientId}/partner/{partnerId}")
-    public Client removeFavorite(
+    @DeleteMapping(value = "/{clientId}/partner/{partnerId}")
+    public Client removeFromFavorite(
             @PathVariable int clientId,
             @PathVariable int partnerId
-
     ){
-        Client c = clientRepo.findById(clientId).get();
-        Partner p = partnerRepo.findById(partnerId).get();
+        return clientService.removeFavoris(clientId, partnerId);
+    }
 
-        c.removeFavorie(p);
-        clientRepo.save(c);
-        return c;
+    @PutMapping(value = "/{clientId}")
+    int updateJob(@RequestBody ClientDto C, @PathVariable int clientId){
+        return clientService.updateClient(C, clientId);
     }
 
 

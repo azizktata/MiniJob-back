@@ -1,5 +1,6 @@
 package com.example.FlexStaff.Entities;
 
+import com.example.FlexStaff.Entities.Enum.Status;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.Data;
@@ -24,13 +25,13 @@ public class Candidat {
     @JsonBackReference (value = "applied-client")
     private Job job;
 
-    @Column(name = "approved")
-    private Boolean approved = false;
+    @Column(name = "status")
+    private Status status = Status.inProcess;
 
-    public Candidat(Client client, Job job, Boolean approved) {
+    public Candidat(Client client, Job job, Status status) {
         this.client = client;
         this.job = job;
-        this.approved = approved;
+        this.status = status;
     }
 
     public void addCandidat(Client c, Job j) {
