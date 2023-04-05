@@ -23,6 +23,11 @@ public class JobController {
         return jobService.getAlljobs();
     }
 
+    @GetMapping(value = "/{jobId}")
+    Job getJobById(@PathVariable int jobId){
+        return jobService.getById(jobId);
+    }
+
     @PostMapping(value = "/addpartner/{partnerId}")
     int addJob(@RequestBody Job J,@PathVariable int partnerId){
         return jobService.saveJob(partnerId, J);

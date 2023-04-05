@@ -3,21 +3,22 @@ package com.example.FlexStaff.Service;
 import com.example.FlexStaff.DAO.ClientRepo;
 import com.example.FlexStaff.DAO.PartnerRepo;
 import com.example.FlexStaff.DTO.ClientDto;
-import com.example.FlexStaff.DTO.JobDto;
 import com.example.FlexStaff.Entities.Client;
-import com.example.FlexStaff.Entities.Job;
 import com.example.FlexStaff.Entities.Partner;
+import com.example.FlexStaff.Exceptions.ObjectNotFoundException;
 import com.example.FlexStaff.util.ImageUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.Optional;
 
 @Service
-public class ClientService {
+public class ClientService implements UserDetailsService {
 
     @Autowired
     private ClientRepo clientRepo;
@@ -48,22 +49,24 @@ public class ClientService {
     }
 
     public Client addFavoris(int clientId, int partnerId){
-        Client c = clientRepo.findById(clientId).get();
-        Partner p = partnerRepo.findById(partnerId).get();
+        Client c = clientRepo.findById(clientId).orElseThrow(() -> new ObjectNotFoundException("Client not found"));
+        Partner p = partnerRepo.findById(partnerId).orElseThrow(()-> new ObjectNotFoundException("Partner not found"));
 
         c.favorPartner(p);
         return clientRepo.save(c);
     }
     public Client removeFavoris(int clientId, int partnerId){
-        Client c = clientRepo.findById(clientId).get();
-        Partner p = partnerRepo.findById(partnerId).get();
+        Client c = clientRepo.findById(clientId).orElseThrow(() -> new ObjectNotFoundException("Client not found"));
+        Partner p = partnerRepo.findById(partnerId).orElseThrow(() -> new ObjectNotFoundException("Partner not found"));
 
         c.removeFavorie(p);
         return clientRepo.save(c);
 
     }
     public int updateClient(ClientDto C, int clientId){
-        Client updatedC = clientRepo.findById(clientId).get();
+
+        Client updatedC = clientRepo.findById(clientId).orElseThrow(() -> new ObjectNotFoundException("Client not found"));
+
         updatedC.setFirstName(C.getFirstName());
         updatedC.setLastName(C.getLastName());
         updatedC.setEmail(C.getEmail());
@@ -73,4 +76,14 @@ public class ClientService {
         return clientRepo.save(updatedC).getIdC();
     }
 
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        return (UserDetails) clientRepo.findByEmail(username)
+                .orElseThrow(() -> new ObjectNotFoundException("User not found"));
+    }
+
+    public void remove(int clientId) {
+        Client C = clientRepo.findById(clientId).orElseThrow(() -> new ObjectNotFoundException("User not found"));
+        clientRepo.delete(C);
+    }
 }

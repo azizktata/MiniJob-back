@@ -3,6 +3,7 @@ package com.example.FlexStaff.Entities;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
@@ -14,6 +15,7 @@ import java.util.List;
 @Entity
 @Data
 @NoArgsConstructor
+@AllArgsConstructor
 public class Client extends User{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -53,12 +55,6 @@ public class Client extends User{
     private List<Partner> favorites;
 
 
-    public Client(@NonNull String firstName, @NonNull String lastName, @NonNull String email, @NonNull String password, String region, @NonNull LocalDate birth, String city, String gender) {
-        super(firstName, lastName, email, password, region);
-        this.birth = birth;
-        this.city = city;
-        this.gender = gender;
-    }
 
     public void favorPartner(Partner p) {
         favorites.add(p);

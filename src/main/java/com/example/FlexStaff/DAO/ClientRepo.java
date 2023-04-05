@@ -9,4 +9,5 @@ import java.util.Optional;
 @RepositoryRestResource
 public interface ClientRepo extends JpaRepository<Client,Integer> {
     Optional<Client> findByProfileImgName (String filename);
+    Optional<Client> findByEmail(String email);
 }

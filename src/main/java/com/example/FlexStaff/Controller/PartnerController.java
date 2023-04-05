@@ -27,6 +27,11 @@ public class PartnerController {
         return partnerService.getAllPartners();
     }
 
+    @GetMapping(value = "/{partnerId}")
+    public Partner getPartnerById(@PathVariable int partnerId){
+        return partnerService.getById(partnerId);
+    }
+
     @PostMapping()
     public int addPartner(@RequestBody Partner p){
         return partnerService.savePartner(p);

@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -32,6 +33,10 @@ public class ClientController {
     public List<Client> getClients(){
         return clientService.getAllClients();
     }
+    /*@GetMapping(value = "/{email}")
+    public UserDetails getClientsE(@PathVariable String email){
+        return clientService.loadUserByUsername(email);
+    }*/
 
     @PostMapping()
     public int addClient(@RequestBody Client C){
@@ -66,8 +71,12 @@ public class ClientController {
     }
 
     @PutMapping(value = "/{clientId}")
-    int updateJob(@RequestBody ClientDto C, @PathVariable int clientId){
+    int updateClient(@RequestBody ClientDto C, @PathVariable int clientId){
         return clientService.updateClient(C, clientId);
+    }
+    @DeleteMapping(value = "/{clientId}")
+     void deleteClient(@PathVariable int clientId){
+         clientService.remove(clientId);
     }
 
 
