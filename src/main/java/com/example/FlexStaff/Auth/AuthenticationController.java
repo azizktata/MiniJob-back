@@ -26,10 +26,25 @@ public class AuthenticationController {
 
         return ResponseEntity.ok(service.authenticate(request));
     }
-    @GetMapping("/token")
-    public String getusername(){
-       return jwtService.extractUsername("eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJndHRAZ21haWwuY29tIn0.lloUqGOlAmiokU4kDoDEQif8TnxNA2OWims-Oh3Utcw");
+
+
+
+
+
+    @PostMapping("/register/partner")
+    public ResponseEntity<Object> registerP(
+            @RequestBody RegisterRequest request
+    ) {
+        return ResponseEntity.ok(service.registerB(request));
     }
+    @PostMapping("/authenticate/partner")
+    public ResponseEntity<AuthenticationResponse> authenticateP(
+            @RequestBody AuthenticationRequest request
+    ) {
+
+        return ResponseEntity.ok(service.authenticateB(request));
+    }
+
 
 
 }

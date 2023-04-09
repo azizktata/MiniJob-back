@@ -27,6 +27,14 @@ public class SecurityConfig {
                 .cors().disable()
                 .authorizeHttpRequests()
                 .requestMatchers("/api/v1/auth/**", "/error").permitAll()
+                .requestMatchers(
+                        "/api/v1/clients/**",
+                        "/api/v1/ratings/**"
+                ).hasAuthority("CUser")
+                .requestMatchers(
+                        "/api/v1/partners/**"
+                ).hasAuthority("BUser")
+                .requestMatchers("/api/v1/candidats/**","/api/v1/jobs/**").hasAnyAuthority("BUser","CUser")
                 .anyRequest().authenticated()
                 .and()
                 .sessionManagement()

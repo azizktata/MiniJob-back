@@ -9,7 +9,9 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @MappedSuperclass
 @Data
@@ -34,8 +36,15 @@ public class User implements UserDetails {
     @Column(name = "region")
     public String region;
 
+    @Enumerated(EnumType.STRING)
+    @ElementCollection(fetch = FetchType.EAGER)
+    private Set<Role> role = new HashSet<>();
 
-
+    public User(@NonNull String email, @NonNull String password, Set<Role> role) {
+        this.email = email;
+        this.password = password;
+        this.role = role;
+    }
 
     public User(@NonNull String firstName, @NonNull String lastName, @NonNull String email, @NonNull String password, String region) {
         this.firstName = firstName;
@@ -51,7 +60,12 @@ public class User implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
+        Set<GrantedAuthority> authorities = new HashSet<>();
+        for (var r : this.role) {
+            var sga = new SimpleGrantedAuthority(r.name());
+            authorities.add(sga);
+        }
+        return authorities;
     }
 
     @Override

@@ -1,7 +1,11 @@
 package com.example.FlexStaff.config;
 
 import com.example.FlexStaff.DAO.ClientRepo;
+import com.example.FlexStaff.Entities.Client;
+import com.example.FlexStaff.Entities.Partner;
+import com.example.FlexStaff.Entities.User;
 import com.example.FlexStaff.Service.ClientService;
+import com.example.FlexStaff.Service.PartnerService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -23,10 +27,24 @@ public class ApplicationConfig {
     @Autowired
     private final ClientService clientService;
 
+    private final PartnerService partnerService;
+
 
     @Bean
     public UserDetailsService userDetailsService() {
-        return username -> clientService.loadUserByUsername(username);
+        return new UserDetailsService() {
+            @Override
+            public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+                try {
+                    Client c = clientService.loadUserByUsername(username);
+                    return new User(c.getUsername(), c.getPassword(), c.getRole());
+                } catch (Exception e) {
+                    Partner p = partnerService.loadUserByUsername(username);
+                    return new User(p.getUsername(), p.getPassword(), p.getRole());
+                }
+
+            }
+        };
     }
 
     @Bean

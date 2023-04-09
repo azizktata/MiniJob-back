@@ -77,9 +77,8 @@ public class ClientService implements UserDetailsService {
     }
 
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return (UserDetails) clientRepo.findByEmail(username)
-                .orElseThrow(() -> new ObjectNotFoundException("User not found"));
+    public Client loadUserByUsername(String username) throws UsernameNotFoundException {
+        return  clientRepo.findByEmail(username).get();
     }
 
     public void remove(int clientId) {

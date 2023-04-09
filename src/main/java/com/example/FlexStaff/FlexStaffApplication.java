@@ -19,6 +19,5 @@ public class FlexStaffApplication implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) throws Exception {
-		System.out.println(jwtService.extractUsername("eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJndHRAZ21haWwuY29tIn0.lloUqGOlAmiokU4kDoDEQif8TnxNA2OWims-Oh3Utcw"));
 	}
 }

@@ -6,10 +6,13 @@ import com.example.FlexStaff.DAO.PartnerRepo;
 import com.example.FlexStaff.DTO.CandidatDto;
 import com.example.FlexStaff.Entities.Candidat;
 import com.example.FlexStaff.Entities.CandidatKey;
+import com.example.FlexStaff.Entities.Client;
 import com.example.FlexStaff.Entities.Enum.Status;
 import com.example.FlexStaff.Entities.Partner;
 import com.example.FlexStaff.Exceptions.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
 
@@ -17,7 +20,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import java.util.List;
 
 @Service
-public class PartnerService {
+public class PartnerService implements UserDetailsService {
 
     @Autowired
     private PartnerRepo partnerRepo;
@@ -60,5 +63,11 @@ public class PartnerService {
 
         }
         return candidatRepo.save(updatedCA);
+    }
+
+    public Partner loadUserByUsername(String username) throws UsernameNotFoundException{
+        return  partnerRepo.findByEmail(username).get();
+
+
     }
 }
