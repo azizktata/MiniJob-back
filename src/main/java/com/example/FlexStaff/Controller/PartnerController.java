@@ -3,24 +3,26 @@ package com.example.FlexStaff.Controller;
 import com.example.FlexStaff.DAO.JobRepo;
 import com.example.FlexStaff.DAO.PartnerRepo;
 import com.example.FlexStaff.DTO.CandidatDto;
+import com.example.FlexStaff.DTO.PartnerDto;
 import com.example.FlexStaff.Entities.*;
 import com.example.FlexStaff.Entities.Enum.Status;
 import com.example.FlexStaff.Service.PartnerService;
 import jakarta.servlet.http.Part;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
+@AllArgsConstructor
 @RequestMapping(value = "api/v1/partners")
 public class PartnerController {
 
     private final PartnerService partnerService;
+    private final PasswordEncoder passwordEncoder;
 
-    public PartnerController(PartnerService partnerService) {
-        this.partnerService = partnerService;
-    }
 
     @GetMapping()
     public List<Partner> getPartnerss(){
@@ -34,7 +36,7 @@ public class PartnerController {
 
     @PostMapping()
     public int addPartner(@RequestBody Partner p){
-        return partnerService.savePartner(p);
+        return partnerService.savePartner(p).getIdP();
     }
 
     @DeleteMapping(value = "/{partnerId}")
@@ -42,15 +44,20 @@ public class PartnerController {
         return partnerService.removePartner(partnerId);
     }
 
-    @PutMapping(value = "/candidats/client/{clientId}/job/{jobId}/{code}")
-    Candidat manageCandidat(
-            @PathVariable int clientId,
-            @PathVariable int jobId,
-            @PathVariable String code
-            )
-    {
-       return partnerService.manageCandidat(clientId, jobId, code);
+    @PutMapping(value = "/{partnerId}")
+    public Partner updatePartner(@PathVariable int partnerId, @RequestBody PartnerDto P){
+        Partner updatedPartner = partnerService.getById(partnerId);
+        updatedPartner.setFirstName(P.getFirstName());
+        updatedPartner.setLastName(P.getLastName());
+        updatedPartner.setEmail(P.getEmail());
+        updatedPartner.setPassword(passwordEncoder.encode(P.getPassword()));
+        updatedPartner.setBusinessName(P.getBusinessName());
+        updatedPartner.setDescription(P.getDescription());
+        updatedPartner.setBusinessLocation(P.getBusinessLocation());
+        return partnerService.savePartner(updatedPartner);
     }
+
+
     /* @PutMapping(value = "/partners/{partnerId}/jobs/{jobId}")
     Partner addJob(@PathVariable int partnerId, @PathVariable int jobId){
         Partner p = partnerRepo.findById(partnerId).get();

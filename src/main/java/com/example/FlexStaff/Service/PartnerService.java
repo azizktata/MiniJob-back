@@ -39,30 +39,13 @@ public class PartnerService implements UserDetailsService {
         return partnerRepo.findById(partnerId).orElseThrow(()-> new ObjectNotFoundException("Partner not found"));
     }
 
-    public int savePartner(Partner P){
-        return partnerRepo.save(P).getIdP();
+    public Partner savePartner(Partner P){
+        return partnerRepo.save(P);
     }
 
     public String removePartner (int partnerId){
         partnerRepo.delete(partnerRepo.findById(partnerId).get());
         return "Partner : "+partnerId+" has been deleted";
-    }
-    public Candidat manageCandidat(int clientId, int jobId, String code)
-    {
-        CandidatDto CA = new CandidatDto();
-        Candidat updatedCA = candidatRepo.findByKey(clientId, jobId);
-        switch (code)
-        {
-            case "A":
-                CA.setStatus(Status.Approved);
-                updatedCA.setStatus(CA.getStatus());
-                break;
-            case "D":
-                CA.setStatus(Status.Declined);
-                updatedCA.setStatus(CA.getStatus());
-
-        }
-        return candidatRepo.save(updatedCA);
     }
 
     public Partner loadUserByUsername(String username) throws UsernameNotFoundException{

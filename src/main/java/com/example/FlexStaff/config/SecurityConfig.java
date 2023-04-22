@@ -34,7 +34,7 @@ public class SecurityConfig {
                 .requestMatchers(
                         "/api/v1/partners/**"
                 ).hasAuthority("BUser")
-                .requestMatchers("/api/v1/candidats/**","/api/v1/jobs/**").hasAnyAuthority("BUser","CUser")
+                .requestMatchers("/api/v1/candidats/**","/api/v1/jobs/**","/api/v1/partners","/api/v1/clients/{id}").hasAnyAuthority("BUser","CUser")
                 .anyRequest().authenticated()
                 .and()
                 .sessionManagement()

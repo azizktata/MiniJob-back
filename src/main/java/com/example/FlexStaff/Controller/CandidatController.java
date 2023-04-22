@@ -48,7 +48,15 @@ public class CandidatController {
         return candidatService.removeCandidat(clientId, jobId);
     }
 
-
+    @PutMapping(value = "/client/{clientId}/job/{jobId}/{code}")
+    Candidat manageCandidat(
+            @PathVariable int clientId,
+            @PathVariable int jobId,
+            @PathVariable String code
+    )
+    {
+        return candidatService.manageCandidat(clientId, jobId, code);
+    }
    /* @PutMapping(value = "/partners/{partnerId}/jobs/{jobId}")
     Partner addJob(@PathVariable int partnerId, @PathVariable int jobId){
         Partner p = partnerRepo.findById(partnerId).get();
