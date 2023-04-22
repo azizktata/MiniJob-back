@@ -33,6 +33,11 @@ public class ClientController {
     public List<Client> getClients(){
         return clientService.getAllClients();
     }
+
+    @GetMapping(value = "/{clientId}")
+    public Client getClientById(@PathVariable int clientId){
+        return clientService.getClientById(clientId);
+    }
     /*@GetMapping(value = "/{email}")
     public UserDetails getClientsE(@PathVariable String email){
         return clientService.loadUserByUsername(email);

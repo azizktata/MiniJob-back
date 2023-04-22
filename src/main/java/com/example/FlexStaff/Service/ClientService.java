@@ -44,6 +44,8 @@ public class ClientService implements UserDetailsService {
         return clientRepo.findAll();
     }
 
+    public Client getClientById(int clientId){return clientRepo.findById(clientId).orElseThrow(() -> new ObjectNotFoundException("Client not found"));}
+
     public int saveClient(Client C){
         return clientRepo.save(C).getIdC();
     }

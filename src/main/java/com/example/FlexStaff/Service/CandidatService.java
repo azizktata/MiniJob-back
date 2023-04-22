@@ -34,8 +34,8 @@ public class CandidatService {
     public List<Job> getJobsPerClient (int clientId){
         return candidatRepo.findByClientId(clientId);
     }
-    public CandidatKey applyCandidat(int jobId, int clientId){
-        Job j = jobRepo.findById(jobId).orElseThrow(() -> new ObjectNotFoundException("Job not found"));
+    public CandidatKey applyCandidat(int clientId, int jobId){
+        Job j = jobRepo.findById(jobId).orElseThrow(()->new ObjectNotFoundException("Job not found"));
         Client c = clientRepo.findById(clientId).get();
         CandidatKey key = new CandidatKey(clientId, jobId);
         Candidat CA = new Candidat();
@@ -62,7 +62,7 @@ public class CandidatService {
         return candidatRepo.save(updatedCA);
     }
 
-    public String removeCandidat(int jobId, int clientId){
+    public String removeCandidat(int clientId, int jobId){
     //    Job j = jobRepo.findById(jobId).get();
     //    Client c = clientRepo.findById(clientId).get();
     //    CandidatKey key = new CandidatKey(clientId, jobId);

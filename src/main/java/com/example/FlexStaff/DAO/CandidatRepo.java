@@ -11,7 +11,7 @@ import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 
 import java.util.List;
 
-@RepositoryRestResource
+
 public interface    CandidatRepo extends JpaRepository<Candidat,Integer> {
     @Query("SELECT c FROM Candidat c " +
             "WHERE c.id.clientId = :clientId " +
