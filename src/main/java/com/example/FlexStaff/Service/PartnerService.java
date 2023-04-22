@@ -4,11 +4,8 @@ import com.example.FlexStaff.DAO.CandidatRepo;
 import com.example.FlexStaff.DAO.JobRepo;
 import com.example.FlexStaff.DAO.PartnerRepo;
 import com.example.FlexStaff.DTO.CandidatDto;
-import com.example.FlexStaff.Entities.Candidat;
-import com.example.FlexStaff.Entities.CandidatKey;
-import com.example.FlexStaff.Entities.Client;
+import com.example.FlexStaff.Entities.*;
 import com.example.FlexStaff.Entities.Enum.Status;
-import com.example.FlexStaff.Entities.Partner;
 import com.example.FlexStaff.Exceptions.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -38,6 +35,11 @@ public class PartnerService implements UserDetailsService {
     public Partner getById (int partnerId){
         return partnerRepo.findById(partnerId).orElseThrow(()-> new ObjectNotFoundException("Partner not found"));
     }
+
+    public List<Job> getJobsPerPartner(int partnerId){
+        return partnerRepo.findJobsByPartnerId(partnerId);
+    }
+
 
     public Partner savePartner(Partner P){
         return partnerRepo.save(P);

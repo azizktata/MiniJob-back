@@ -31,7 +31,7 @@ public class AuthenticationService {
 
     private final AuthenticationManager authenticationManager;
 
-    public String register(RegisterRequest request) {
+    public AuthenticationResponse register(RegisterRequest request) {
 
         Client C = new Client();
         C.setFirstName(request.getFirstName());
@@ -45,8 +45,12 @@ public class AuthenticationService {
         Client savedUser = clientRepo.save(C);
         var jwtToken = jwtService.generateToken(C);
 
+        AuthenticationResponse AR = new AuthenticationResponse();
+        AR.setToken(jwtToken);
+        AR.setId(savedUser.getIdC());
 
-        return jwtToken;
+        return AR;
+
 
     }
 
@@ -67,6 +71,7 @@ public class AuthenticationService {
 
         AuthenticationResponse AR = new AuthenticationResponse();
         AR.setToken(jwtToken);
+        AR.setId(clientService.loadUserByUsername(request.getEmail()).getIdC());
 
         return AR;
     }
@@ -86,8 +91,9 @@ public class AuthenticationService {
         var savedUser = partnerRepo.save(P);
 
         var jwtToken = jwtService.generateToken(P);
-        AuthenticationResponse AR = new AuthenticationResponse(jwtToken);
-
+        AuthenticationResponse AR = new AuthenticationResponse();
+        AR.setToken(jwtToken);
+        AR.setId(savedUser.getIdP());
         return AR;
 
     }
@@ -101,8 +107,9 @@ public class AuthenticationService {
         }
         var jwtToken = jwtService.generateToken(user);
 
-        AuthenticationResponse AR = new AuthenticationResponse(jwtToken);
-
+        AuthenticationResponse AR = new AuthenticationResponse();
+        AR.setToken(jwtToken);
+        AR.setId(partnerRepo.findByEmail(request.getEmail()).get().getIdP());
         return AR;
     }
 }

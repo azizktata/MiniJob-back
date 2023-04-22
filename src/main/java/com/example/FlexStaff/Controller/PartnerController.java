@@ -34,6 +34,9 @@ public class PartnerController {
         return partnerService.getById(partnerId);
     }
 
+    @GetMapping(value = "/{partnerId}/jobs")
+    public List<Job> getJobs(@PathVariable int partnerId){return partnerService.getJobsPerPartner(partnerId);}
+
     @PostMapping()
     public int addPartner(@RequestBody Partner p){
         return partnerService.savePartner(p).getIdP();
