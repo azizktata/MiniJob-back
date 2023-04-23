@@ -25,6 +25,11 @@ public class RatingController {
         return ratingService.getAllRatings();
     }
 
+    @GetMapping(value = "/partner/{partnerId}")
+    public double getRatingByPartner(@PathVariable int partnerId){
+        return ratingService.getRatingByPartner(partnerId);
+    }
+
     @PostMapping(value = "/client/{clientId}/partner/{partnerId}")
     public PartnerRatingKey postRating(
             @RequestBody RateDto stars,

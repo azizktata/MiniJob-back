@@ -7,6 +7,7 @@ import com.example.FlexStaff.DTO.JobDto;
 import com.example.FlexStaff.Entities.Job;
 import com.example.FlexStaff.Entities.Partner;
 import com.example.FlexStaff.Exceptions.ObjectNotFoundException;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,13 +15,16 @@ import java.io.IOException;
 import java.util.List;
 
 @Service
+@AllArgsConstructor
 public class JobService {
 
-    @Autowired
+
     private JobRepo jobRepo;
 
-    @Autowired
+
     private PartnerRepo partnerRepo;
+
+    private CandidatService candidatService;
 
 
     public List<Job> getAlljobs (){
@@ -45,9 +49,13 @@ public class JobService {
     }
 
     public String deleteJob(int jobId){
-        jobRepo.delete(jobRepo.findById(jobId).get());
+        candidatService.removeCandidatByJobId(jobId);
+        jobRepo.delete(jobRepo.findById(jobId).orElseThrow(()-> new ObjectNotFoundException("Job not found")));
+
         return "job : "+ jobId + "is deleted";
     }
+
+
 
 
     public Job getById(int jobId) {

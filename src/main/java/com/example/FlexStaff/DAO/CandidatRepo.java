@@ -23,6 +23,10 @@ public interface    CandidatRepo extends JpaRepository<Candidat,Integer> {
             "AND c.id.jobId = :jobId ")
     List<Client> findByJobId(@Param("jobId") int jobId);
 
+    @Query("SELECT c FROM  Candidat c " +
+            "WHERE c.id.jobId = :jobId " )
+    List<Candidat> findCandidatsByJobId(@Param("jobId") int jobId);
+
     @Query("SELECT j FROM Job j, Candidat c " +
             "WHERE c.id.jobId = j.id " +
             "AND c.id.clientId = :clientId ")

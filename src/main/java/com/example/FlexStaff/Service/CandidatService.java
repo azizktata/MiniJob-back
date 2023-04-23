@@ -69,4 +69,12 @@ public class CandidatService {
         candidatRepo.delete(candidatRepo.findByKey(clientId, jobId));
         return "candidat: "+clientId+" removed application from "+jobId;
     }
+
+    public String removeCandidatByJobId( int jobId){
+        //    Job j = jobRepo.findById(jobId).get();
+        //    Client c = clientRepo.findById(clientId).get();
+        //    CandidatKey key = new CandidatKey(clientId, jobId);
+        candidatRepo.deleteAll(candidatRepo.findCandidatsByJobId(jobId));
+        return "candidats removed from "+jobId;
+    }
 }

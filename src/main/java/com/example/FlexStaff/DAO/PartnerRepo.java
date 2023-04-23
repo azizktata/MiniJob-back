@@ -16,4 +16,6 @@ public interface PartnerRepo extends JpaRepository<Partner,Integer> {
 
     @Query("Select J from Job J where J.partner.idP = :partnerId ")
     List<Job> findJobsByPartnerId(@Param("partnerId") int partnerId);
+
+
 }

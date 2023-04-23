@@ -58,4 +58,6 @@ public class Job {
     public void assignPartner(Partner p) {
         this.partner = p;
     }
+
+
 }

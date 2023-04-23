@@ -48,6 +48,7 @@ public class CandidatController {
         return candidatService.removeCandidat(clientId, jobId);
     }
 
+
     @PutMapping(value = "/client/{clientId}/job/{jobId}/{code}")
     Candidat manageCandidat(
             @PathVariable int clientId,

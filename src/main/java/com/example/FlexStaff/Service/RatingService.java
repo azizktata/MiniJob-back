@@ -34,4 +34,8 @@ public class RatingService {
         PR.setId(key);
         return ratingRepo.save(PR).getId();
     }
+
+    public double getRatingByPartner(int partnerId) {
+        return ratingRepo.getMoyRate(partnerId);
+    }
 }
