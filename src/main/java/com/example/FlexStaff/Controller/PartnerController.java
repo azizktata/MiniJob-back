@@ -57,6 +57,7 @@ public class PartnerController {
         updatedPartner.setBusinessName(P.getBusinessName());
         updatedPartner.setDescription(P.getDescription());
         updatedPartner.setBusinessLocation(P.getBusinessLocation());
+        updatedPartner.setSector(P.getSector());
         return partnerService.savePartner(updatedPartner);
     }
 

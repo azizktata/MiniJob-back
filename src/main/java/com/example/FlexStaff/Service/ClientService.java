@@ -7,10 +7,12 @@ import com.example.FlexStaff.Entities.Client;
 import com.example.FlexStaff.Entities.Partner;
 import com.example.FlexStaff.Exceptions.ObjectNotFoundException;
 import com.example.FlexStaff.util.ImageUtil;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -18,13 +20,13 @@ import java.io.IOException;
 import java.util.List;
 
 @Service
+@AllArgsConstructor
 public class ClientService implements UserDetailsService {
 
-    @Autowired
-    private ClientRepo clientRepo;
 
-    @Autowired
+    private ClientRepo clientRepo;
     private PartnerRepo partnerRepo;
+
 
     public Client uploadImage(MultipartFile file, int clientId) throws IOException {
 
@@ -65,18 +67,7 @@ public class ClientService implements UserDetailsService {
         return clientRepo.save(c);
 
     }
-    public int updateClient(ClientDto C, int clientId){
 
-        Client updatedC = clientRepo.findById(clientId).orElseThrow(() -> new ObjectNotFoundException("Client not found"));
-
-        updatedC.setFirstName(C.getFirstName());
-        updatedC.setLastName(C.getLastName());
-        updatedC.setEmail(C.getEmail());
-        updatedC.setBirth(C.getBirth());
-        updatedC.setCity(C.getCity());
-        updatedC.setPassword(C.getPassword());
-        return clientRepo.save(updatedC).getIdC();
-    }
 
     @Override
     public Client loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -85,6 +76,7 @@ public class ClientService implements UserDetailsService {
 
     public void remove(int clientId) {
         Client C = clientRepo.findById(clientId).orElseThrow(() -> new ObjectNotFoundException("User not found"));
+
         clientRepo.delete(C);
     }
 }
