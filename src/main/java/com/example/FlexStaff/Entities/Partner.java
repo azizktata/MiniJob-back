@@ -68,6 +68,10 @@ public class Partner extends User{
         this.sector = sector;
         this.jobs = jobs;
     }
+    public Partner(String businessName, String businessLocation){
+        this.businessLocation = businessLocation;
+        this.businessName = businessName;
+    }
 
     public void addJob(Job j) {
         jobs.add(j);

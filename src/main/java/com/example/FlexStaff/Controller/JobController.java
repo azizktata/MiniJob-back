@@ -32,7 +32,8 @@ public class JobController {
     int addJob(@RequestBody Job J,@PathVariable int partnerId){
         return jobService.saveJob(partnerId, J);
     }
-   @PutMapping(value = "/{jobId}")
+
+    @PutMapping(value = "/{jobId}")
    int updateJob(@RequestBody JobDto J, @PathVariable int jobId){
         return jobService.updateJob(J, jobId);
    }

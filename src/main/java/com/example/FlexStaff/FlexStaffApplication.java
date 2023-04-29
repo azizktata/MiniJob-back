@@ -9,11 +9,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
 public class FlexStaffApplication implements CommandLineRunner {
-	@Autowired
-	private JwtService jwtService;
+
 	public static void main(String[] args)  {
-		Dotenv dotenv = Dotenv.configure().load();
-		SpringApplication.run(FlexStaffApplication.class, args);
+
 
 	}
 

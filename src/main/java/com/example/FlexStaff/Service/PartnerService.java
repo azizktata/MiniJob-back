@@ -7,6 +7,7 @@ import com.example.FlexStaff.DTO.CandidatDto;
 import com.example.FlexStaff.Entities.*;
 import com.example.FlexStaff.Entities.Enum.Status;
 import com.example.FlexStaff.Exceptions.ObjectNotFoundException;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -17,16 +18,12 @@ import org.springframework.web.bind.annotation.PathVariable;
 import java.util.List;
 
 @Service
+@AllArgsConstructor
 public class PartnerService implements UserDetailsService {
 
-    @Autowired
     private PartnerRepo partnerRepo;
 
-    @Autowired
-    private CandidatRepo candidatRepo;
 
-    @Autowired
-    private JobRepo jobRepo;
 
     public List<Partner> getAllPartners (){
         return partnerRepo.findAll();

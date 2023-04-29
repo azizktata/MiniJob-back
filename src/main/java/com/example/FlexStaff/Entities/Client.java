@@ -54,8 +54,11 @@ public class Client extends User{
             inverseJoinColumns = @JoinColumn(name = "partner_id"))
     private List<Partner> favorites;
 
-
-
+    public Client(String firstName, String lastName, String email){
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+    }
     public void favorPartner(Partner p) {
         favorites.add(p);
     }

@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 public class AuthenticationController {
 
     private final AuthenticationService service;
-    private JwtService jwtService;
+
 
     @PostMapping("/register")
     public ResponseEntity<Object> register(

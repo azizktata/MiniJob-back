@@ -55,6 +55,12 @@ public class Job {
         this.location = location;
     }
 
+    public Job(String title, String description, int salary) {
+        this.title = title;
+        this.description = description;
+        this.salary = salary;
+    }
+
     public void assignPartner(Partner p) {
         this.partner = p;
     }

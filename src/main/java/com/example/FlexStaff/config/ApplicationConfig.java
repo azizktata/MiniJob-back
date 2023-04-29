@@ -6,6 +6,7 @@ import com.example.FlexStaff.Entities.Partner;
 import com.example.FlexStaff.Entities.User;
 import com.example.FlexStaff.Service.ClientService;
 import com.example.FlexStaff.Service.PartnerService;
+import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -22,9 +23,9 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Configuration
-@RequiredArgsConstructor
+@AllArgsConstructor
 public class ApplicationConfig {
-    @Autowired
+
     private final ClientService clientService;
 
     private final PartnerService partnerService;

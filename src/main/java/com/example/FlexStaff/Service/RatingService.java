@@ -8,19 +8,18 @@ import com.example.FlexStaff.Entities.Client;
 import com.example.FlexStaff.Entities.Partner;
 import com.example.FlexStaff.Entities.PartnerRating;
 import com.example.FlexStaff.Entities.PartnerRatingKey;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 @Service
+@AllArgsConstructor
 public class RatingService {
-    @Autowired
     private PartnerRatingRepo ratingRepo;
 
-    @Autowired
     private ClientRepo clientRepo;
 
-    @Autowired
     private PartnerRepo partnerRepo;
 
     public List<PartnerRating> getAllRatings (){return ratingRepo.findAll();}

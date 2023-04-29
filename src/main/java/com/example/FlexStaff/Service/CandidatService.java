@@ -10,20 +10,19 @@ import com.example.FlexStaff.Entities.Client;
 import com.example.FlexStaff.Entities.Enum.Status;
 import com.example.FlexStaff.Entities.Job;
 import com.example.FlexStaff.Exceptions.ObjectNotFoundException;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
+@AllArgsConstructor
 public class CandidatService {
-    @Autowired
     private ClientRepo clientRepo;
 
-    @Autowired
     private JobRepo jobRepo;
 
-    @Autowired
     private CandidatRepo candidatRepo;
 
     public List<Candidat> getAllCandidats(){return candidatRepo.findAll();}
