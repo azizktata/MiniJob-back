@@ -12,10 +12,6 @@ This platform will connect businesses with individuals who are willing to work f
 - Businesses should be able to manage their profile info
 -	The platform should have user authentication and authorization features to protect sensitive information and prevent unauthorized access.
 
-# Non-functional requirements
--	The platform should be user-friendly and easy to navigate for both businesses and workers.
--	The platform should be secure, with appropriate measures in place to protect sensitive information such as personal data 
--	The platform should have fast response times to ensure a seamless user experience.
 
 # Work environment
 - Spring boot
