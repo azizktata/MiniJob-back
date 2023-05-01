@@ -16,10 +16,6 @@ This platform will connect businesses with individuals who are willing to work f
 # Work environment
 - Spring boot
 
-# Conclusion
-- The Flex Staff platform is designed to connect businesses with flexible part-time or temporary workers. The software requirements outlined in this document will ensure that the platform is user-friendly, reliable,
-secure, and technically sound.
-
 # Use case diagram
 
 ![Flex Staff Platform Use Case](https://user-images.githubusercontent.com/65952489/230768836-60af06bc-865b-4354-8475-c3ebdfad8d7d.png)
@@ -27,3 +23,8 @@ secure, and technically sound.
 # class diagram
 
 ![Diagramme de classe FlexStaff](https://user-images.githubusercontent.com/65952489/230768850-dcc0c85b-7c0f-49d0-a0b0-c0f02a1b55d9.png)
+
+
+# Conclusion
+- The Flex Staff platform is designed to connect businesses with flexible part-time or temporary workers. The software requirements outlined in this document will ensure that the platform is user-friendly, reliable,
+secure, and technically sound.
